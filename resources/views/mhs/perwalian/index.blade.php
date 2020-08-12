@@ -68,7 +68,9 @@
 
     {{-- Jadwal --}}
     <div class="row">
-        <div id="tampil"></div>
+        <div class="col-12">
+            <div id="tampil"></div>
+        </div>
     </div>
 
 

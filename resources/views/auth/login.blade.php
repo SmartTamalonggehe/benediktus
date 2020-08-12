@@ -21,7 +21,7 @@
 
 <body>
     <div class="home-btn d-none d-sm-block">
-        <a href="" class="text-dark"><i class="fas fa-home h2"></i></a>
+        <a href="{{ url('/') }}" class="text-dark"><i class="fas fa-home h2"></i></a>
     </div>
     <div class="account-pages my-5 pt-sm-5">
         <div class="container">
@@ -34,7 +34,7 @@
                                 <h5 class="text-white font-size-20">Selamat Datang !</h5>
                                 <p class="text-white-50 mb-0">Silahkan Login</p>
                                 <a href="" class="logo logo-admin mt-4">
-                                    <img src="{{ asset('assetsAdmin/images/logo-sm-dark.png') }}" alt="" height="30">
+                                    <img src="{{ asset('logo-icon.png') }}" alt="" height="60">
                                 </a>
                             </div>
                         </div>

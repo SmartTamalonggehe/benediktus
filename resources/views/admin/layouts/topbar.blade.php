@@ -23,7 +23,7 @@
                                 </button>
                             </div>
 
-                            <div class="dropdown d-inline-block">
+                            {{-- <div class="dropdown d-inline-block">
                                 <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="mdi mdi-bell-outline"></i>
                                     <span class="badge badge-danger badge-pill">3</span>
@@ -58,7 +58,7 @@
                                         </a>
                                         <a href="" class="text-reset notification-item">
                                             <div class="media">
-                                                <img src="{{ asset('assetsAdmin/images/users/avatar-3.jpg') }}" class="mr-3 rounded-circle avatar-xs" alt="user-pic">
+                                                <img src="{{ asset('assetsAdmin/images/users/avatar-1.png') }}" class="mr-3 rounded-circle avatar-xs" alt="user-pic">
                                                 <div class="media-body">
                                                     <h6 class="mt-0 mb-1">James Lemire</h6>
                                                     <div class="font-size-12 text-muted">
@@ -87,7 +87,7 @@
 
                                         <a href="" class="text-reset notification-item">
                                             <div class="media">
-                                                <img src="{{ asset('assetsAdmin/images/users/avatar-4.jpg') }}" class="mr-3 rounded-circle avatar-xs" alt="user-pic">
+                                                <img src="{{ asset('assetsAdmin/images/users/avatar-1.png') }}" class="mr-3 rounded-circle avatar-xs" alt="user-pic">
                                                 <div class="media-body">
                                                     <h6 class="mt-0 mb-1">Salena Layfield</h6>
                                                     <div class="font-size-12 text-muted">
@@ -104,11 +104,11 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="dropdown d-inline-block">
                                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img class="rounded-circle header-profile-user" src="{{ asset('assetsAdmin/images/users/avatar-2.jpg') }}" alt="Header Avatar">
+                                    <img class="rounded-circle header-profile-user" src="{{ asset('assetsAdmin/images/users/avatar-1.png') }}" alt="Header Avatar">
                                     <span class="d-none d-xl-inline-block ml-1">Admin</span>
                                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                                 </button>

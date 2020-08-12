@@ -5,11 +5,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <script>document.write(new Date().getFullYear())</script> © Qovex.
+                <script>document.write(new Date().getFullYear())</script> © King Pro P4W.
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-right d-none d-sm-block">
-                    Design & Develop by Themesbrand
+                    BENEDIKTUS EKO WARAYAAN
                 </div>
             </div>
         </div>
