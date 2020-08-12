@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta name="csrf_token" content="{{csrf_token()}}">
     <meta charset="utf-8" />
     <title>@yield('judul')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
