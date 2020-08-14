@@ -20,6 +20,28 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assetsAdmin/drluar/toas/toastr.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assetsAdmin/drluar/sweetalert/sweetalert2.min.css') }}">
 
+    <style>
+        text-small {
+        font-size: 0.9rem;
+        }
+
+        .messages-box,
+        .chat-box {
+        height: 510px;
+        overflow-y: scroll;
+        }
+
+        .rounded-lg {
+        border-radius: 0.5rem;
+        }
+
+        input::placeholder {
+        font-size: 0.9rem;
+        color: #999;
+        }
+
+    </style>
+
 @endsection
 
 @section('content')
@@ -73,6 +95,32 @@
         </div>
     </div>
 
+    {{-- Koment --}}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                        <div class="col-7 ml-auto mr-auto px-0">
+                            <div class="px-4 py-5 chat-box bg-white overflow-auto" id="komentarPerwalian" style="height: 500px">
+                            </div>
+                            <!-- Typing area -->
+                            <form id="kirim_komen" class="bg-light">
+                                @csrf
+                                <div class="input-group">
+                                    <input type="text" name="pesan" id="pesan" placeholder="Ketik Pesan" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                                    <div class="input-group-append">
+                                    <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     @include('mhs.perwalian.form')
 
@@ -120,9 +168,6 @@
      <script src="{{ asset('assetsAdmin/drluar/sweetalert/sweetalert2.all.min.js') }}"></script>
 
 
-
-
-
     <script>
         // Load Data
         function loadMoreData() {
@@ -139,7 +184,54 @@
                 alert('Server tidak merespon...');
             });
         }
+
+        // Load Data Komentar
+        function loadKomen() {
+            $.ajax({
+                url: '{{ route("komenPerwalian.index") }}',
+                type: "get",
+                datatype: "html",
+                success:function(data){
+                    $('#komentarPerwalian').html(data);
+                }
+            })
+            .fail(function(jqXHR, ajaxOptions, thrownError)
+            {
+                alert('Server tidak merespon...');
+            });
+        }
         loadMoreData();
+        loadKomen();
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#kirim_komen").on('submit',function(e){
+            e.preventDefault();
+            let id = $('#id').val();
+            let dataKu = $('#kirim_komen').serialize();
+            let pesan =$('#pesan').val()
+            if (!pesan) {
+                alert ("Tidak Bisa Mengirim Pesan Kosong")
+                return 0;
+            }
+            $.ajax({
+            url: "{{ route('komenPerwalian.store') }}",
+            type: "POST",
+            data: dataKu,
+            success: function(response) {
+                loadKomen();
+                $('#pesan').val('')
+                // loadKomen();
+                //   pesan
+            }
+            })
+            .fail(function(jqXHR, ajaxOptions, thrownError)
+                {
+                    alert('Error.');
+                });
+            });
+        });
     </script>
 
     {{-- Tambah dan Ubah Data --}}
