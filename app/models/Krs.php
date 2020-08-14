@@ -8,4 +8,9 @@ class Krs extends Model
 {
     protected $table = 'krs';
     protected $guarded=[];
+
+    public function perwalian()
+    {
+        return $this->belongsTo(Perwalian::class);
+    }
 }

@@ -50,7 +50,6 @@
         <div class="col-12">
             <div class="page-title-box d-flex align-items-center justify-content-between">
                 <h4 class="page-title mb-0 font-size-18">@yield('judul')</h4>
-
             </div>
         </div>
     </div>
@@ -71,7 +70,7 @@
                             </tr>
                             <tr>
                                 <td><h4 class="card-title">IPK</h4></td>
-                                <td><h4 class="card-title ml-2">: {{ $khs->IPK }}</h4></td>
+                                <td><h4 class="card-title ml-2">: {{ number_format ($khs->IPK,2) }}</h4></td>
                                 <td><h4 class="card-title ml-5">NPM</h4></td>
                                 <td><h4 class="card-title">: {{ auth()->user()->mhs->NPM }}</h4></td>
                             </tr>
@@ -203,7 +202,7 @@
         loadMoreData();
         loadKomen();
     </script>
-
+{{-- Tambah Komentar --}}
     <script>
         $(document).ready(function () {
             $("#kirim_komen").on('submit',function(e){
@@ -233,55 +232,5 @@
             });
         });
     </script>
-
-    {{-- Tambah dan Ubah Data --}}
-    {{-- <script>
-        $('#tambah').click(function(){
-            save_method="add"
-            $('#judul').html('From Tambah Data')
-            $('#tombolForm').html('Simpan Data')
-            $('.tampilModal').modal('show')
-            $('#formKu').trigger('reset');
-            $('.select2').val('').trigger('change');
-        });
-
-        $(document).ready(function () {
-            $("#formKu").on('submit',function(e){
-            e.preventDefault();
-            let id = $('#id').val();
-            let dataKu = $('#formKu').serialize();
-            if (save_method=="add") {
-                url="{{ route('dosen.store') }}"
-                method="POST"
-            } else {
-                url="dosen/" + id
-                method="PUT"
-            }
-            $.ajax({
-            url: url,
-            type: method,
-            data: dataKu,
-            success: function(response) {
-                    if (save_method=="add") {
-                        toastr.info('Data Disimpan ', 'Berhasil', { "progressBar": true });
-                    } else {
-                        toastr.info('Data Diubah ', 'Berhasil', { "progressBar": true });
-                        aksi=$('.tampilModal').modal('hide')
-                    }
-                    $('#formKu').trigger('reset');
-                    $('.select2').val('').trigger('change');
-                loadMoreData();
-                //   pesan
-            }
-            })
-            .fail(function(jqXHR, ajaxOptions, thrownError)
-                {
-                    alert('Error.');
-                });
-            console.log(save_method)
-            });
-        });
-
-    </script> --}}
 
 @endsection

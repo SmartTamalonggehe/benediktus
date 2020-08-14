@@ -44,8 +44,21 @@ class PerwalianController extends Controller
             ->get()
             ->sortBy('matkul.semester')->keyBy('matkul.semester');
 
+        $krs=Krs::where('semester_ak','GANJIL')->where('tahun_ak',2020)->
+            with('perwalian')->get()
+            ->where('perwalian.mhs_id',auth()->user()->id)->first();
+
+        $kontrak=Kontrak::where('krs_id',$krs->id)->get();
+
+        if (!$krs->perwalian) {
+            $data = '{
+                "ket": "Kosong"
+            }';
+            $krs = json_decode($data);
+        }
+
         if ($request->ajax()) {
-            $view = view('mhs.perwalian.data',compact('khs','beban','jadwal','semester'));
+            $view = view('mhs.perwalian.data',compact('khs','beban','jadwal','semester','krs','kontrak'));
             return $view;
         }
 
@@ -79,22 +92,32 @@ class PerwalianController extends Controller
     {
         $perwalian_id=Perwalian::where('mhs_id', auth()->user()->id)->first();
         $tgl_krs=Carbon::now()->format('Y-m-d');
-
-        $krs = Krs::create([
-            'perwalian_id'=>$perwalian_id->id,
-            'semester_ak'=>'GANJIL',
-            'tahun_ak'=>2020,
-            'tgl_krs'=>$tgl_krs,
-            'ket'=>'Tunggu'
-        ]);
-        $krs_id=Krs::latest()->first();
-        // return $krs_id->id;
-
         $data = $request->all();
+
+        if ($request->krs_id) {
+            Kontrak::where('krs_id', $request->krs_id)->delete();
+            Krs::find($request->krs_id)
+                ->update([
+                    'ket'=>'Tunggu'
+                ]);
+            $krs_id=$request->krs_id;
+        }else {
+            $krs = Krs::create([
+                'perwalian_id'=>$perwalian_id->id,
+                'semester_ak'=>'GANJIL',
+                'tahun_ak'=>2020,
+                'tgl_krs'=>$tgl_krs,
+                'ket'=>'Tunggu'
+            ]);
+            $krs_id=Krs::latest()->first();
+            $krs_id=$krs_id->id;
+        }
+
+        // return $krs_id->id;
 
         foreach ($data['jadwal_id'] as $index => $val) {
             Kontrak::create([
-                'krs_id' => $krs_id->id,
+                'krs_id' => $krs_id,
                 'jadwal_id' => $val,
             ]);
         }
