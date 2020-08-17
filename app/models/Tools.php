@@ -11,6 +11,6 @@ class Tools extends Model
 
     public function prodi()
     {
-        return $this->belongsTo(prodi::class,'id_prodi');
+        return $this->belongsTo(Prodi::class,'id_prodi');
     }
 }

@@ -1,6 +1,6 @@
 @extends('staf.layouts.default')
 
-@section('judul', 'Staf')
+@section('judul', 'Daftar Kelas')
 
 @section('css')
     <!-- DataTables -->

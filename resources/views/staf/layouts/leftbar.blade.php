@@ -10,8 +10,8 @@
 
             <div class="mt-3">
 
-                <a href="#" class="text-dark font-weight-medium font-size-16">Patrick Becker</a>
-                <p class="text-body mt-1 mb-0 font-size-13">UI/UX Designer</p>
+                <a href="#" class="text-dark font-weight-medium font-size-16">{{ auth()->user()->tools->nm_tool }}</a>
+                <p class="text-body mt-1 mb-0 font-size-13">Staf {{ auth()->user()->tools->prodi->nm_prodi }}</p>
 
             </div>
         </div>
