@@ -11,30 +11,33 @@ use Carbon\Carbon;
     <table class="tableKu table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
         <thead>
             <tr>
-                <th>Hari</th>
-                <th>Jam</th>
-                <th>Kode MK</th>
-                <th>Nama MK</th>
-                <th>Ruang</th>
-                <th>Kelas</th>
-                <th>Kuota</th>
+                <th>No.</th>
+                <th>NPM</th>
+                <th>Nama Mhs</th>
+                <th>Semester</th>
+                <th>Tahun</th>
+                <th>Gambar KHS</th>
+                <th>IPK</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($kelas as $item)
-            <tr class="clickable-row" data-id='{{ $item->id }}' data-id_jadwal="{{ $item->jadwal_ku }}">
-                <td>{{ $item->hari }}</td>
-                <td>{{ Carbon::parse($item->jam_mulai)->format('H:i') }}-{{ Carbon::parse($item->jam_seles)->format('H:i') }}</td>
-                <td>{{ $item->matkul->kd_matkul }}</td>
-                <td id="{{ $item->jadwal_ku }}">{{ $item->matkul->nm_matkul }}</td>
-                <td>{{ $item->ruang->kd_ruang }}</td>
-                @if ($item->id)
-                    <td>{{ $item->nm_kelas }}</td>
-                    <td>{{ $item->kuota }}</td>
+            @foreach ($khs as $item)
+            <tr class="clickable-row" data-status="{{ $item->status }}" data-id='{{ $item->id }}'>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $item->mhs->NPM }}</td>
+                <td>{{ $item->mhs->nm_mhs }}</td>
+                <td>{{ $item->semester_ak }}</td>
+                <td>{{ $item->tahun_ak }}</td>
+                <td>
+                    <div class="zoom-gallery">
+                        <a class="float-left" href="{{ asset($item->gambar_khs) }}" title="Project 1"><img src="{{ asset($item->gambar_khs) }}" alt="" width="100"></a>
+                    </div>
+                </td>
+                @if ($item->status=="Aktif")
+                    <td>{{ $item->IPK }}</td>
                 @else
-                    <td></td>
-                    <td><button id="tambah" type="button" data-id="{{ $item->jadwal_ku }}" class="btn btn-primary btn-relief-info">
-                        <i class="feather icon-plus-circle"></i> Tambah Data
+                    <td><button id="tambah" type="button" data-id="{{ $item->id }}" class="btn btn-primary btn-relief-info">
+                        <i class="feather icon-plus-circle"></i> Input IPK
                     </button> </td>
                 @endif
             </tr>
@@ -57,21 +60,26 @@ use Carbon\Carbon;
 <script src="{{ asset('assetsAdmin/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('assetsAdmin/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
 
+<!-- Magnific Popup-->
+<script src="{{ asset('assetsAdmin/libs/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
+
+<!-- Tour init js-->
+<script src="{{ asset('assetsAdmin/js/pages/lightbox.init.js') }}"></script>
+
+
 <script>
     // Tampilkan Modal Tambah
     $('button#tambah').on('click',function(e){
         e.preventDefault();
-        let id_jadwal=$(this).data('id');
-        console.log(id_jadwal);
-        let nm_matkul=$('#'+id_jadwal).html();
-        save_method="add"
+        let id=$(this).data('id');
+        console.log(id);
+        save_method="Ubah"
         $('#judul').html('Tambah Kelas')
-        $('.ketForm').html('Silahkan Menambah Kelas / Kuota Kelas Untuk Matakuliah '+nm_matkul+'. Jika Matakuliah hanya memiliki 1 kelas, biarkan kosong pilihan nama kelas')
-        $('#jadwal_id').val(id_jadwal)
+        $('.ketForm').html('Silahkan Menambah Data IPK')
+        $('#id').val(id)
+        $('#IPK').val('')
         $('#tombolForm').html('Simpan Data')
         $('.tampilModal').modal('show')
-        $('#nm_kelas').val('')
-        $('#kuota').val(0)
     });
 </script>
 
@@ -80,6 +88,11 @@ use Carbon\Carbon;
     $(document).ready(function($) {
         $(".clickable-row").dblclick(function() {
             href= $(this).data('id');
+            let status= $(this).data('status');
+            if (status!=="Aktif") {
+                alert('IPK belum Diinput')
+                return 0;
+            }
             $('#alertPertanyaan').modal('show')
         });
     });
@@ -91,7 +104,7 @@ use Carbon\Carbon;
         $('#alertPertanyaan').modal('hide')
         save_method="Ubah"
         $.ajax({
-            url: "kelas/"+href+"/edit",
+            url: "khs/"+href+"/edit",
             type: 'GET',
             dataType: 'JSON',
             beforeSend: function() {
@@ -102,9 +115,7 @@ use Carbon\Carbon;
                 // lakukan sesuatu jika data sudah terkirim
                 // lakukan sesuatu jika data sudah terkirim
                 $('#id').val(data.id);
-                $('#jadwal_id').val(data.jadwal_id);
-                $('#nm_kelas').val(data.nm_kelas);
-                $('#kuota').val(data.kuota);
+                $('#IPK').val(data.IPK);
                 $('.tampilModal').modal('show')
                 $('#judul').html('Silahkan Merubah Data')
                 $('#tombolForm').html('Ubah Data')
@@ -130,7 +141,7 @@ use Carbon\Carbon;
         }).then(function (result) {
         if (result.value) {
             $.ajax({
-                url: "kelas/"+href,
+                url: "khs/"+href,
                 type : "POST",
                 data : {'_method' : 'DELETE', '_token' :csrf_token},
                 success: function(response) {

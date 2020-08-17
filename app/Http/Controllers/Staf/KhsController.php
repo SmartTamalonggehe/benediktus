@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staf;
 
 use App\Http\Controllers\Controller;
+use App\Models\Khs;
 use Illuminate\Http\Request;
 
 class KhsController extends Controller
@@ -12,9 +13,19 @@ class KhsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $khs = Khs::latest()->get();
+
+        if ($request->ajax()) {
+            $view = view('staf.khs.data', [
+                'khs'=>$khs,
+            ]);
+            return $view;
+        }
+        return view('staf.khs.index', [
+            'khs'=>$khs,
+        ]);
     }
 
     /**
@@ -57,7 +68,8 @@ class KhsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $khs=Khs::find($id);
+        return $khs;
     }
 
     /**
@@ -69,7 +81,11 @@ class KhsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Khs::where('id',$id)
+            ->update([
+                'IPK'=>$request->IPK,
+                'status'=>'Aktif',
+            ]);
     }
 
     /**
@@ -80,6 +96,6 @@ class KhsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Khs::destroy($id);
     }
 }
