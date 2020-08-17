@@ -150,7 +150,7 @@ class DosenController extends Controller
         User::where('id',$id)
             ->update([
                 'username'=>$request->NIDN,
-                'email'=>$request->NIDN,
+                // 'email'=>$request->NIDN,
             ]);
     }
 
