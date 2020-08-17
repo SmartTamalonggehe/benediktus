@@ -1,4 +1,4 @@
-@extends('staf.layouts.default')
+@extends('dosen.layouts.default')
 
 @section('judul', 'Dashboard')
 
@@ -16,7 +16,7 @@
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item active">Selamat Datang {{ auth()->user()->tools->nm_tool }}</li>
+                        <li class="breadcrumb-item active">Selamat Datang {{ auth()->user()->dosen->nm_dosen }}</li>
                     </ol>
                 </div>
 

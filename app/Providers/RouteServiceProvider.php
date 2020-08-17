@@ -48,6 +48,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapMhsRoutes();
 
+        $this->mapDosenRoutes();
+
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
@@ -96,6 +98,20 @@ class RouteServiceProvider extends ServiceProvider
             ->prefix('mhs')
             ->namespace($this->namespace . '\Mhs')
             ->group(base_path('routes/mhs.php'));
+    }
+     /**
+     * Define the "Admin" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapDosenRoutes()
+    {
+        Route::middleware('web','auth','role:Dosen')
+            ->prefix('dosen')
+            ->namespace($this->namespace . '\Dosen')
+            ->group(base_path('routes/dosen.php'));
     }
 
     /**
