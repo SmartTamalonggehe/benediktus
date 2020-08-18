@@ -73,6 +73,7 @@ class DosenController extends Controller
         ]);
 
         $data= Dosen::create([
+            'id' => $id_user,
             'NIDN'=>$request->NIDN,
             'nm_dosen'=>$request->nm_dosen,
             'password'=>$password,
@@ -138,6 +139,7 @@ class DosenController extends Controller
             'alamat.required'=>'Tidak Boleh Kosong Woyy',
         ]);
 
+
         dosen::where('id',$id)
             ->update([
                 'NIDN'=>$request->NIDN,
@@ -147,10 +149,11 @@ class DosenController extends Controller
                 'status'=>$request->status,
                 'alamat'=>$request->alamat,
             ]);
-        User::where('id',$id)
+
+        User::find($id)
             ->update([
                 'username'=>$request->NIDN,
-                // 'email'=>$request->NIDN,
+                'email'=>$request->NIDN,
             ]);
     }
 
