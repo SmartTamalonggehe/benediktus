@@ -14,7 +14,7 @@
     <tbody>
         @foreach ($dosen as $item)
             <tr class="clickable-row" data-id='{{ $item->id }}'>
-                <td>{{ $item->NIDN }} id {{ $item->id }}</td>
+                <td>{{ $item->NIDN }}</td>
                 <td>{{ $item->prodi->nm_prodi }}</td>
                 <td>{{ $item->nm_dosen }}</td>
                 <td>{{ $item->jenkel }}</td>
