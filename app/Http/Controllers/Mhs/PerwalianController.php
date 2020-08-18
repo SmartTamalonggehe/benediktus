@@ -48,14 +48,22 @@ class PerwalianController extends Controller
             with('perwalian')->get()
             ->where('perwalian.mhs_id',auth()->user()->id)->first();
 
-        $kontrak=Kontrak::where('krs_id',$krs->id)->get();
-
-        if (!$krs->perwalian) {
+        if ($krs) {
+            $kontrak=Kontrak::where('krs_id',$krs->id)->get();
+            if (!$krs->perwalian) {
+                $data = '{
+                    "ket": "Kosong"
+                }';
+                $krs = json_decode($data);
+            }
+        } else {
             $data = '{
                 "ket": "Kosong"
             }';
             $krs = json_decode($data);
+            $kontrak = json_decode($data);
         }
+
 
         if ($request->ajax()) {
             $view = view('mhs.perwalian.data',compact('khs','beban','jadwal','semester','krs','kontrak'));

@@ -40,7 +40,7 @@ class JadwalController extends Controller
      */
     public function store(Request $request)
     {
-        jadwal::create([
+        Jadwal::create([
                 'prodi_id'=>$request->prodi_id,
                 'matkul_id'=>$request->matkul_id,
                 'ruang_id'=>$request->ruang_id,
@@ -115,7 +115,7 @@ class JadwalController extends Controller
                 'prodi_id'=>$request->prodi_id,
                 'matkul_id'=>$request->matkul_id,
                 'ruang_id'=>$request->ruang_id,
-                'dosen_id'=>$request->id_dosen_id,
+                'dosen_id'=>$request->dosen_id,
                 'hari'=>$request->hari,
                 'jam_mulai'=>$request->jam_mulai,
                 'jam_seles'=>$request->jam_seles,

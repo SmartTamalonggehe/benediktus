@@ -96,6 +96,7 @@
                 <h4 class="card-title">KRS anda telah diterima oleh Dosen Wali {{ auth()->user()->mhs->perwalian->dosen->nm_dosen }}</h4>
             @else
                 <h4 class="card-title text-warning">KRS Masih Menunggu Persetujuan dari Dosen Wali {{ auth()->user()->mhs->perwalian->dosen->nm_dosen }}</h4>
+                <p>Silahkan menghubungi dosen wali pada form chat</p>
             @endif
             <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                 <thead>

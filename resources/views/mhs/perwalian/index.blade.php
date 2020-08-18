@@ -99,6 +99,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    <h4>Chat ke dosen wali</h4>
                         <div class="col-7 ml-auto mr-auto px-0">
                             <div class="px-4 py-5 chat-box bg-white overflow-auto" id="komentarPerwalian" style="height: 500px">
                             </div>
@@ -106,7 +107,7 @@
                             <form id="kirim_komen" class="bg-light">
                                 @csrf
                                 <div class="input-group">
-                                    <input type="text" name="pesan" id="pesan" placeholder="Ketik Pesan" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                                    <input type="text" autocomplete="off" name="pesan" id="pesan" placeholder="Ketik Pesan" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
                                     <div class="input-group-append">
                                     <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
                                     </div>

@@ -12,7 +12,7 @@
             <div class="bg-light rounded py-2 px-3 mb-2">
                 <p class="text-small mb-0 text-muted">{!! $item->pesan !!}</p>
             </div>
-            <p class="small text-muted">12:00 PM | Aug 13</p>
+            <p class="small text-muted">{{ Carbon::parse($item->created_at)->format('d-m-Y') }}</p>
             </div>
         </div>
     @else
@@ -22,7 +22,7 @@
             <div class="bg-primary rounded py-2 px-3 mb-2">
                 <p class="text-small mb-0 text-white">{!! $item->pesan !!}</p>
             </div>
-            <p class="small text-muted">12:00 PM | Aug 13</p>
+            <p class="small text-muted">{{ Carbon::parse($item->created_at)->format('d-m-Y') }}</p>
             </div>
         </div>
     @endif
