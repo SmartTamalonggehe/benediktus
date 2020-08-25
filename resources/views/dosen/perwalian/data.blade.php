@@ -17,9 +17,10 @@
             <td>{{ $item->mhs->NPM }}</td>
             <td>{{ $item->mhs->nm_mhs }}</td>
             <td>{{ $itemKrs->ket }}</td>
-            <td>{{ $item->komenPerwalian->count() }}</td>
+            <td>{{ $item->komenPerwalian->where('id_pengkomen','!=',auth()->user()->dosen->id)
+                ->where('status','Belum')->count() }}</td>
             <td>
-                <a target="blank" href="{{ route('perwalianDosen.show',$itemKrs->id) }}" class="btn btn-success">Lihat</a>
+                <a target="_blank" href="{{ route('perwalianDosen.show',$itemKrs->id) }}" class="btn btn-success">Lihat</a>
             </td>
         </tr>
         @endforeach

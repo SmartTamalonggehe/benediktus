@@ -23,10 +23,6 @@ class PerwalianController extends Controller
             ->where('dosen_id',auth()->user()->dosen->id)
             ->get();
 
-        $komenPerwalian=KomenPerwalian::where('id_pengkomen','!=',auth()->user()->dosen->id)
-            ->where('status','Belum')
-            ->get();
-
         // return $perwalian;
 
         if ($request->ajax()) {
@@ -70,6 +66,15 @@ class PerwalianController extends Controller
     public function show($id)
     {
         $krs=Krs::find($id);
+
+
+        // Ganti Komen Menjadi Dibaca
+        KomenPerwalian::where('perwalian_id',$krs->perwalian_id)
+            ->where('id_pengkomen','!=',auth()->user()->id)
+            ->update([
+                'status'=>'Dibaca',
+            ]);
+
         $kontrak=Kontrak::where('krs_id',$id)->get();
 
         $jadwal= Jadwal::where('semester_ak','GANJIL')

@@ -84,7 +84,8 @@
                         </button>
                     </div>
 
-                    <div class="dropdown d-inline-block">
+{{-- Notifikasi --}}
+                    {{-- <div class="dropdown d-inline-block">
                         <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-bell-outline"></i>
                             <span class="badge badge-danger badge-pill">3</span>
@@ -165,7 +166,7 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="dropdown d-inline-block">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
