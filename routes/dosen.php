@@ -7,3 +7,4 @@ Route::get('/', function () {
 })->name('dosen');
 
 Route::resource('perwalianDosen', 'PerwalianController');
+Route::resource('komenPerwalianDosen', 'KomenPerwalianController');

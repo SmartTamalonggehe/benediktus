@@ -1,25 +1,34 @@
-<table class="tableKu table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+{{-- <table class="tableKu table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
     <thead>
         <tr>
-            <th>No</th>
-            <th>NPM</th>
-            <th>Nama Mahasiswa</th>
-            <th>NIDN</th>
-            <th>Nama Dosen</th>
+            <th>Mata Kuliah</th>
+            <th>Kode MK</th>
+            <th>Hari</th>
+            <th>Jam</th>
+            <th>Ruang</th>
+            <th>SKS</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($perwalian as $item)
-        <tr class="clickable-row" data-id="{{ $item->id }}">
-            <td></td>
-            <td>{{ $item->mhs->NPM }}</td>
-            <td>{{ $item->mhs->nm_mhs }}</td>
-            <td>{{ $item->dosen->NIDN }}</td>
-            <td>{{ $item->dosen->nm_dosen }}</td>
-        </tr>
+        @foreach ($kontrak as $itemKontrak)
+            @foreach ($jadwal as $item)
+            @if ($item->id===$itemKontrak->jadwal_id)
+            <tr class="clickable-row" data-id='{{ $item->id }}'>
+                <td>{{ $item->matkul->nm_matkul }}</td>
+                <td>{{ $item->matkul->kd_matkul }}</td>
+                <td>{{ $item->hari }}</td>
+                <td>{{ Carbon::parse($item->jam_mulai)->format('H:i') }}-{{ Carbon::parse($item->jam_seles)->format('H:i') }}</td>
+                <td>{{ $item->ruang->kd_ruang }}</td>
+                <td>{{ $item->matkul->sks }}</td>
+            </tr>
+            @endif
+            @endforeach
         @endforeach
+
     </tbody>
-</table>
+</table> --}}
+
+
 
 
 <!-- Required datatable js -->

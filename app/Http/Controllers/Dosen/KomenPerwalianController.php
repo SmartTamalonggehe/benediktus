@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Dosen;
 
-use App\Models\Jadwal;
-use App\Models\Kontrak;
 use App\Models\Perwalian;
 use Illuminate\Http\Request;
 use App\models\KomenPerwalian;
 use App\Http\Controllers\Controller;
 use App\Models\Krs;
 
-class PerwalianController extends Controller
+class KomenPerwalianController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,25 +17,20 @@ class PerwalianController extends Controller
      */
     public function index(Request $request)
     {
-        $perwalian=Perwalian::with('krs')
-            ->where('dosen_id',auth()->user()->dosen->id)
-            ->get();
+        $krs=Krs::find($request->krs_id);
 
-        $komenPerwalian=KomenPerwalian::where('id_pengkomen','!=',auth()->user()->dosen->id)
-            ->where('status','Belum')
-            ->get();
-
-        // return $perwalian;
+        $perwalian_id=$krs->perwalian_id;
+        $komen=KomenPerwalian::where('perwalian_id',$perwalian_id)
+            ->orderByDesc('created_at')
+            ->paginate(10);
+        // return $komen;
 
         if ($request->ajax()) {
-            $view = view('dosen.perwalian.data', [
-                'perwalian'=>$perwalian,
+            $view = view('mhs.perwalian.data_komen', [
+                'komen'=>$komen->sortBy('created_at'),
             ]);
             return $view;
         }
-        return view('dosen.perwalian.index', [
-            'perwalian'=>$perwalian,
-        ]);
     }
 
     /**
@@ -47,7 +40,7 @@ class PerwalianController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -58,7 +51,12 @@ class PerwalianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = KomenPerwalian::create([
+            'id_pengkomen'=>auth()->user()->id,
+            'perwalian_id'=>$request->perwalian_id,
+            'pesan'=>$request->pesan,
+            'status'=>'Belum',
+        ]);
     }
 
     /**
@@ -69,16 +67,7 @@ class PerwalianController extends Controller
      */
     public function show($id)
     {
-        $krs=Krs::find($id);
-        $kontrak=Kontrak::where('krs_id',$id)->get();
-
-        $jadwal= Jadwal::where('semester_ak','GANJIL')
-            ->where('tahun_ak',2020)
-            ->orderByRaw('FIELD(hari, "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu")')
-            ->orderBy('jam_mulai')
-            ->get();
-
-        return view('dosen.kontrak.index', compact('kontrak','jadwal','krs'));
+        //
     }
 
     /**
@@ -101,11 +90,7 @@ class PerwalianController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Krs::find($id)
-            ->update([
-                'ket'=>$request->ket,
-            ]);
-        return redirect()->back();
+        //
     }
 
     /**

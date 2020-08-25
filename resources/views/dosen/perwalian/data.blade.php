@@ -11,19 +11,23 @@
     </thead>
     <tbody>
         @foreach ($perwalian as $item)
+        @foreach ($item->krs as $itemKrs)
         <tr class="clickable-row" data-id="{{ $item->id }}">
             <td></td>
             <td>{{ $item->mhs->NPM }}</td>
             <td>{{ $item->mhs->nm_mhs }}</td>
-            <td>{{ $item->dosen->NIDN }}</td>
+            <td>{{ $itemKrs->ket }}</td>
             <td>{{ $item->komenPerwalian->count() }}</td>
             <td>
-                <a href="coba.html" class="btn btn-success">Lihat</a>
+                <a target="blank" href="{{ route('perwalianDosen.show',$itemKrs->id) }}" class="btn btn-success">Lihat</a>
             </td>
         </tr>
         @endforeach
+        @endforeach
     </tbody>
 </table>
+
+
 
 
 <!-- Required datatable js -->

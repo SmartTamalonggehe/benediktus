@@ -1,6 +1,11 @@
-@extends('staf.layouts.default')
+@php
+use Carbon\Carbon;
 
-@section('judul', 'Dosen Wali')
+@endphp
+
+@extends('dosen.layouts.default')
+
+@section('judul', 'Perwalian')
 
 @section('css')
     <!-- DataTables -->
@@ -36,42 +41,95 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="card-title">Data @yield('judul')</h4>
-                    <p class="card-title-desc">Klik 2x untuk menghapus atau mengubah data.
-                        <button type="submit" id="tambah" class="btn btn-primary float-right">Tambah Data</button>
+                    <h4 class="card-title">Data Kontrak Matakuliah {{ $krs->perwalian->mhs->nm_mhs }}</h4>
+                    <p class="card-title-desc">
+                        Daftar Matakuliah yang dikontrak oleh {{ $krs->perwalian->mhs->nm_mhs }}
                     </p>
 
-                    <div id="tampil"></div>
+                    <table class="tableKu table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Mata Kuliah</th>
+                                <th>Kode MK</th>
+                                <th>Hari</th>
+                                <th>Jam</th>
+                                <th>Ruang</th>
+                                <th>SKS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($kontrak as $itemKontrak)
+                                @foreach ($jadwal as $item)
+                                @if ($item->id===$itemKontrak->jadwal_id)
+                                <tr class="clickable-row" data-id='{{ $item->id }}'>
+                                    <td>{{ $item->matkul->nm_matkul }}</td>
+                                    <td>{{ $item->matkul->kd_matkul }}</td>
+                                    <td>{{ $item->hari }}</td>
+                                    <td>{{ Carbon::parse($item->jam_mulai)->format('H:i') }}-{{ Carbon::parse($item->jam_seles)->format('H:i') }}</td>
+                                    <td>{{ $item->ruang->kd_ruang }}</td>
+                                    <td>{{ $item->matkul->sks }}</td>
+                                </tr>
+                                @endif
+                                @endforeach
+                            @endforeach
+                        </tbody>
+                        <tr>
+                            <td colspan="2">Status : {{ $krs->ket }}</td>
+                            <input type="hidden" id="krs_id" value="{{ $krs->id }}">
+                            <td colspan="4">
+                                <form action="{{ route('perwalianDosen.update',$krs->id) }}" method="POST">
+                                    @method('PUT')
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-3">Ubah Status:</div>
+                                        <div class="col-3">
+                                            <select name="ket" id="ket" class="form-control" style="width: 100%" required data-validation-required-message="Tidak Boleh Kosong">
+                                                <option value="Revisi">Revisi</option>
+                                                <option value="Terima">Terima</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-3">
+                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
         <!-- end col -->
     </div>
 
-    @include('staf.perwalian.form')
+     {{-- Koment --}}
+     <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Chat ke Mahasiswa</h4>
+                        <div class="col-7 ml-auto mr-auto px-0">
+                            <div class="px-4 py-5 chat-box bg-white overflow-auto" id="komentarPerwalian" style="height: 500px">
+                            </div>
+                            <!-- Typing area -->
+                            <form id="kirim_komen" class="bg-light">
+                                @csrf
+                                <input type="hidden" name="perwalian_id" id="perwalian_id" value="{{ $krs->perwalian_id }}">
+                                <div class="input-group">
+                                    <input type="text" autocomplete="off" name="pesan" id="pesan" placeholder="Ketik Pesan" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                                    <div class="input-group-append">
+                                    <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                                    </div>
+                                </div>
+                            </form>
 
-    <div class="modal fade text-left" id="alertPertanyaan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel1">Pilih Tindakan</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Silahkan Pilih tindakan selanjutnya.</p>
+                        </div>
 
-                </div>
-                <div class="text-center mb-2">
-                    <button type="button" class="btn btn-warning" id="btnUbah"><i class="feather icon-edit"></i> Ubah</button>
-                    <button type="button" class="btn btn-danger" id="btnHapus"><i class="feather icon-trash-2"></i> Hapus</button>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
 @section('js')
     <!-- parsley plugin -->
     <script src="{{ asset('assetsAdmin/libs/parsleyjs/parsley.min.js') }}"></script>
@@ -93,22 +151,6 @@
      {{-- Sweet Allert--}}
      <script src="{{ asset('assetsAdmin/drluar/sweetalert/sweetalert2.all.min.js') }}"></script>
 
-    {{-- Drop Down MHS --}}
-    <script>
-        function dropDownMhs()
-        {
-        $(document).ready(function(){
-            $('#mhs_id').empty();
-            $('#mhs_id').append('<option value="">Pilih Mahasiswa</option>');
-            $.getJSON("StafPerwalian_mhs", function (data){
-                $.each(data, function(key,val){
-                    $('#mhs_id').append('<option value="' + val.id +'">' + val.NPM + ' - ' + val.nm_mhs + '</option>');
-                })
-            })
-        })
-        }
-    </script>
-
     <script>
         // Load Data
         function loadMoreData() {
@@ -125,47 +167,49 @@
                 alert('Server tidak merespon...');
             });
         }
+        // Load Data Komentar
+        function loadKomen() {
+            let krs_id=$('#krs_id').val();
+            $.ajax({
+                url: '{{ route("komenPerwalianDosen.index") }}',
+                type: "get",
+                datatype: "html",
+                data:{
+                    krs_id:krs_id,
+                },
+                success:function(data){
+                    $('#komentarPerwalian').html(data);
+                }
+            })
+            .fail(function(jqXHR, ajaxOptions, thrownError)
+            {
+                alert('Server tidak merespon...');
+            });
+        }
+        loadKomen();
         loadMoreData();
     </script>
 
-    {{-- Tambah dan Ubah Data --}}
+    {{-- Tambah Komentar --}}
     <script>
-        $('#tambah').click(function(){
-            save_method="add"
-            $('#judul').html('From Tambah Data')
-            $('#tombolForm').html('Simpan Data')
-            $('#formKu').trigger("reset");
-            $('.tampilModal').modal('show')
-            dropDownMhs()
-            $('#dosen_id').val('').trigger('change');
-        });
-
         $(document).ready(function () {
-            $("#formKu").on('submit',function(e){
+            $("#kirim_komen").on('submit',function(e){
             e.preventDefault();
             let id = $('#id').val();
-            let dataKu = $('#formKu').serialize();
-            if (save_method=="add") {
-                url="{{ route('perwalian.store') }}"
-                method="POST"
-            } else {
-                url="perwalian/"+id
-                method="PUT"
+            let dataKu = $('#kirim_komen').serialize();
+            let pesan =$('#pesan').val()
+            if (!pesan) {
+                alert ("Tidak Bisa Mengirim Pesan Kosong")
+                return 0;
             }
             $.ajax({
-            url: url,
-            type: method,
+            url: "{{ route('komenPerwalianDosen.store') }}",
+            type: "POST",
             data: dataKu,
             success: function(response) {
-                    if (save_method=="add") {
-                        toastr.info('Data Disimpan ', 'Berhasil', { "progressBar": true });
-                    } else {
-                        toastr.info('Data Diubah ', 'Berhasil', { "progressBar": true });
-                        aksi=$('.tampilModal').modal('hide')
-                    }
-                $('#id').val('');
-                dropDownMhs();
-                loadMoreData();
+                loadKomen();
+                $('#pesan').val('')
+                // loadKomen();
                 //   pesan
             }
             })
@@ -175,8 +219,6 @@
                 });
             });
         });
-
     </script>
-
 
 @endsection
