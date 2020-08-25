@@ -1,6 +1,6 @@
-@extends('dosen.layouts.default')
+@extends('staf.layouts.default')
 
-@section('judul', 'Perwalian')
+@section('judul', 'Dosen Wali')
 
 @section('css')
     <!-- DataTables -->
@@ -37,8 +37,7 @@
                 <div class="card-body">
 
                     <h4 class="card-title">Data @yield('judul')</h4>
-                    <p class="card-title-desc">
-                        Klik lihat untuk melihat detail matakuliah yang di kontrak serta pesan dari mahasiswa.
+                    <p class="card-title-desc">Klik 2x untuk menghapus atau mengubah data.
                         <button type="submit" id="tambah" class="btn btn-primary float-right">Tambah Data</button>
                     </p>
 
@@ -49,7 +48,7 @@
         <!-- end col -->
     </div>
 
-    @include('dosen.perwalian.form')
+    @include('staf.perwalian.form')
 
     <div class="modal fade text-left" id="alertPertanyaan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -93,6 +92,22 @@
      <script src="{{ asset('assetsAdmin/drluar/toas/toastr.js') }}"></script>
      {{-- Sweet Allert--}}
      <script src="{{ asset('assetsAdmin/drluar/sweetalert/sweetalert2.all.min.js') }}"></script>
+
+    {{-- Drop Down MHS --}}
+    <script>
+        function dropDownMhs()
+        {
+        $(document).ready(function(){
+            $('#mhs_id').empty();
+            $('#mhs_id').append('<option value="">Pilih Mahasiswa</option>');
+            $.getJSON("StafPerwalian_mhs", function (data){
+                $.each(data, function(key,val){
+                    $('#mhs_id').append('<option value="' + val.id +'">' + val.NPM + ' - ' + val.nm_mhs + '</option>');
+                })
+            })
+        })
+        }
+    </script>
 
     <script>
         // Load Data

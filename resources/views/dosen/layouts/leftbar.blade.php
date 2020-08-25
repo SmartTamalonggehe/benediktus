@@ -27,13 +27,13 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                {{-- <li>
-                    <a href="{{ route('mhs.index') }}" class="waves-effect">
+                <li>
+                    <a href="{{ route('perwalianDosen.index') }}" class="waves-effect">
                         <i class="bx bx-run"></i>
-                        <span>Mahasiswa</span>
+                        <span>Perwalian</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('perwalian.index') }}" class="waves-effect">
                         <i class="bx bx-run"></i>
                         <span>Perwalian</span>

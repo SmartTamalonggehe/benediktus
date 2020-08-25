@@ -4,9 +4,8 @@
             <th>No</th>
             <th>NPM</th>
             <th>Nama Mahasiswa</th>
-            <th>Status</th>
-            <th>Pesan</th>
-            <th></th>
+            <th>NIDN</th>
+            <th>Nama Dosen</th>
         </tr>
     </thead>
     <tbody>
@@ -16,10 +15,7 @@
             <td>{{ $item->mhs->NPM }}</td>
             <td>{{ $item->mhs->nm_mhs }}</td>
             <td>{{ $item->dosen->NIDN }}</td>
-            <td>{{ $item->komenPerwalian->count() }}</td>
-            <td>
-                <a href="coba.html" class="btn btn-success">Lihat</a>
-            </td>
+            <td>{{ $item->dosen->nm_dosen }}</td>
         </tr>
         @endforeach
     </tbody>

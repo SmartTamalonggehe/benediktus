@@ -18,9 +18,9 @@
                                   <label for="dosen_id">Dosen Wali</label>
                                   <select name="dosen_id" id="dosen_id" class="select2 form-control" style="width: 100%" required data-validation-required-message="Tidak Boleh Kosong">
                                       <option value="">Pilih Dosen Wali</option>
-                                      {{-- @foreach ($dosen as $item)
+                                      @foreach ($dosen as $item)
                                           <option value="{{ $item->id }}">{{ $item->NIDN }} - {{ $item->nm_dosen }}</option>
-                                      @endforeach --}}
+                                      @endforeach
                                   </select>
                               </div>
                           </div>

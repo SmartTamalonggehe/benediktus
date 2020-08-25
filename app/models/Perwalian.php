@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\models\KomenPerwalian;
 use Illuminate\Database\Eloquent\Model;
 
 class Perwalian extends Model
@@ -20,5 +21,10 @@ class Perwalian extends Model
     public function krs()
     {
         return $this->hasMany(Krs::class);
+    }
+
+    public function komenPerwalian()
+    {
+        return $this->hasMany(KomenPerwalian::class);
     }
 }
