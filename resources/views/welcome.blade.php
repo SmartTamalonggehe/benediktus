@@ -77,7 +77,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    SISTEM INFORMASI PERWALIAN TEST
+                    SISTEM INFORMASI PERWALIAN
                 </div>
                 <h1>
                     Fakultas Sains & Teknologi
