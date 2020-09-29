@@ -186,8 +186,11 @@ use Carbon\Carbon;
                 alert('Server tidak merespon...');
             });
         }
-        loadKomen();
         loadMoreData();
+        // Load komen perdetik
+        setInterval(function(){
+            loadKomen();
+        }, 1000)
     </script>
 
     {{-- Tambah Komentar --}}

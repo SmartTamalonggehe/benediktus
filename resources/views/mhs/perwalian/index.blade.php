@@ -201,7 +201,10 @@
             });
         }
         loadMoreData();
-        loadKomen();
+
+        setInterval(function(){
+            loadKomen();
+            }, 1000);
     </script>
 {{-- Tambah Komentar --}}
     <script>

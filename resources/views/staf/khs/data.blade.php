@@ -34,7 +34,7 @@ use Carbon\Carbon;
                     </div>
                 </td>
                 @if ($item->status=="Aktif")
-                    <td>{{ $item->IPK }}</td>
+                    <td>{{number_format ($item->IPK,2) }}</td>
                 @else
                     <td><button id="tambah" type="button" data-id="{{ $item->id }}" class="btn btn-primary btn-relief-info">
                         <i class="feather icon-plus-circle"></i> Input IPK

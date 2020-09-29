@@ -27,7 +27,7 @@
             @else
             <tr>
                 <td>IPK</td>
-                <td>{{ $khs->IPK }}</td>
+                <td>{{ number_format($khs->IPK,2) }}</td>
             </tr>
             @endif
 
