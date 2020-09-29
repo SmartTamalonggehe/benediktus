@@ -40,12 +40,12 @@
                         <span>Perwalian</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('kelas.index') }}" class="waves-effect">
                         <i class="bx bx-store-alt"></i>
                         <span>Kelas</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li>
                     <a href="{{ route('khs.index') }}" class="waves-effect">
