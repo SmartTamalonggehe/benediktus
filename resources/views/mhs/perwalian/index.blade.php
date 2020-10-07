@@ -200,7 +200,9 @@
                 alert('Server tidak merespon...');
             });
         }
-        loadMoreData();
+        $(document).ready(function () {
+            loadMoreData();
+         })
 
         setInterval(function(){
             loadKomen();
