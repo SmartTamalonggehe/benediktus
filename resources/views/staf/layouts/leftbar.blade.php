@@ -36,7 +36,7 @@
                 </li>
                 <li>
                     <a href="{{ route('perwalian.index') }}" class="waves-effect">
-                        <i class="bx bx-run"></i>
+                        <i class="bx bx-user-voice"></i>
                         <span>Perwalian</span>
                     </a>
                 </li>
@@ -51,6 +51,12 @@
                     <a href="{{ route('khs.index') }}" class="waves-effect">
                         <i class="bx bx-food-menu"></i>
                         <span>KHS</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('nilai.index') }}" class="waves-effect">
+                        <i class="bx bx-tone"></i>
+                        <span>NILAI</span>
                     </a>
                 </li>
 
