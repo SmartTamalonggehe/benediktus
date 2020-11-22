@@ -23,3 +23,5 @@ Route::resource('kelas', 'KelasController');
 Route::resource('perwalian', 'PerwalianController');
 Route::get('StafPerwalian_mhs', 'PerwalianController@mhs')->name('staf.mhs');
 Route::resource('nilai', 'NilaiController');
+Route::resource('krs', 'KrsController');
+Route::resource('kontrak', 'KontrakController');

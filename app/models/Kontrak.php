@@ -19,6 +19,6 @@ class Kontrak extends Model
         return $this->belongsTo(Jadwal::class);
     }
     public function nilai(){
-        return $this->hasMany(Nilai::class);
+        return $this->hasOne(Nilai::class);
     }
 }

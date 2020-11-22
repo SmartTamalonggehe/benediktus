@@ -83,11 +83,12 @@ class NilaiController extends Controller
      */
     public function show($id)
     {
-        $nilai=Nilai::with(['kontrak'=>function($kontrak){
+        $nilai=Nilai::with(['kontrak'=>function($kontrak) use ($id){
+            $kontrak->where('krs_id',$id);
             $kontrak->with(['jadwal'=>function($jadwal){
                 $jadwal->with('matkul');
             }]);
-        }])->get();
+        }])->get()->whereNotNull('kontrak');
 
 
         $kontrak= Kontrak::where('krs_id',$id)

@@ -15,7 +15,7 @@
         <tr>
             <td></td>
             <td>{{ $item->krs->perwalian->mhs->NPM }}</td>
-            <td>{{ $item->krs->perwalian->mhs->nm_mhs }}</td>
+            <td>{{ $item->krs->perwalian->mhs->nm_mhs }} {{ $item->krs->perwalian->mhs->nm_mhs }}</td>
             <td>
                 @forelse ($nilai as $itemNilai)
                     @if ($item->krs->perwalian->mhs->NPM===$itemNilai->kontrak->krs->perwalian->mhs->NPM)
@@ -64,6 +64,9 @@
                 // lakukan sesuatu sebelum data dikirim
                 },
             success: function(data) {
+                console.log(krs_id);
+                console.log(data);
+
                 // lakukan sesuatu jika data sudah terkirim
                 if (save_method=="add") {
                     $.each(data.kontrak, tampilData);

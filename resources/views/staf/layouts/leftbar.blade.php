@@ -48,6 +48,13 @@
                 </li> --}}
 
                 <li>
+                    <a href="{{ route('krs.index') }}" class="waves-effect">
+                        <i class="bx bx-store-alt"></i>
+                        <span>KRS</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="{{ route('khs.index') }}" class="waves-effect">
                         <i class="bx bx-food-menu"></i>
                         <span>KHS</span>
