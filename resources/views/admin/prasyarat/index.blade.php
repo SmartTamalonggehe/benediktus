@@ -1,6 +1,6 @@
-@extends('staf.layouts.default')
+@extends('admin.layouts.default')
 
-@section('judul', 'Nilai Mahasiswa')
+@section('judul', 'Matkul Praysarat')
 
 @section('css')
     <!-- DataTables -->
@@ -37,34 +37,18 @@
                 <div class="card-body">
 
                     <h4 class="card-title">Data @yield('judul')</h4>
-                    <div class="row">
-                        <div class="col-12 col-md-3">
-                            <select name="tahun_ak" id="tahun_ak" class="select2 form-control">
-                                <option value="">Pilih Tahun</option>
-                                @foreach ($tahun->keyBy('krs.tahun_ak') as $item)
-                                    <option value="{{ $item->krs->tahun_ak }}">{{ $item->krs->tahun_ak }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <select name="semester_ak" id="semester_ak" class="select2 form-control">
-                                <option value="">Pilih Semester</option>
-                                <option value="GANJIL">Ganjil</option>
-                                <option value="GENAP">Genap</option>
-                            </select>
-                        </div>
+                    <p class="card-title-desc">Klik 2x untuk menghapus atau mengubah data.
+                        <button type="submit" id="tambah" class="btn btn-primary float-right">Tambah Data</button>
+                    </p>
 
-                        <div class="col-12 mt-4">
-                            <div id="tampil"></div>
-                        </div>
-                    </div>
+                    <div id="tampil"></div>
                 </div>
             </div>
         </div>
         <!-- end col -->
     </div>
 
-    @include('staf.nilai.form')
+    @include('admin.prasyarat.form')
 
     <div class="modal fade text-left" id="alertPertanyaan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -109,23 +93,17 @@
      {{-- Sweet Allert--}}
      <script src="{{ asset('assetsAdmin/drluar/sweetalert/sweetalert2.all.min.js') }}"></script>
 
+
+
     <script>
         // Load Data
         function loadMoreData() {
-            let semester_ak=$('#semester_ak').val();
-            let tahun_ak=$('#tahun_ak').val();
             $.ajax({
                 url: '',
                 type: "get",
-                datatype: "JSON",
-                data:{
-                        'semester_ak':semester_ak,
-                        'tahun_ak':tahun_ak,
-                    },
+                datatype: "html",
                 success:function(data){
                     $('#tampil').html(data);
-                    console.log(semester_ak);
-                    console.log(tahun_ak);
                 }
             })
             .fail(function(jqXHR, ajaxOptions, thrownError)
@@ -134,28 +112,30 @@
             });
         }
         loadMoreData();
-        // Pilih Semester & Tahun
-        $('#semester_ak').on('change', function(){
-            loadMoreData()
-        })
-        $('#tahun_ak').on('change', function(){
-            loadMoreData()
-        })
     </script>
 
     {{-- Tambah dan Ubah Data --}}
     <script>
+        $('#tambah').click(function(){
+            save_method="add"
+            $('#judul').html('From Tambah Data')
+            $('#tombolForm').html('Simpan Data')
+            $('#syarat_id').val("").trigger('change');
+            $('#matkul_id').val("").trigger('change');
+            $('.tampilModal').modal('show')
+            $('#formKu').trigger('reset');
+        });
+
         $(document).ready(function () {
             $("#formKu").on('submit',function(e){
             e.preventDefault();
-            let id = $('.id').val();
+            let id = $('#id').val();
             let dataKu = $('#formKu').serialize();
             if (save_method=="add") {
-                url="{{ route('nilai.store') }}"
+                url="{{ route('prasyarat.store') }}"
                 method="POST"
             } else {
-                url = '{{ route("nilai.update", ":id") }}';
-                url = url.replace(':id', id);
+                url="prasyarat/"+id
                 method="PUT"
             }
             $.ajax({
@@ -167,21 +147,21 @@
                         toastr.info('Data Disimpan ', 'Berhasil', { "progressBar": true });
                     } else {
                         toastr.info('Data Diubah ', 'Berhasil', { "progressBar": true });
+                        aksi=$('.tampilModal').modal('hide')
                     }
-                aksi=$('.tampilModal').modal('hide')
-                $('#id').val('');
+                    $('#formKu').trigger('reset');
                 loadMoreData();
                 //   pesan
             }
             })
             .fail(function(jqXHR, ajaxOptions, thrownError)
                 {
-                    alert('Error.');
+                    alert('Error. Kemungkinan NPM Sudah Ada.');
                 });
+            console.log(save_method)
             });
         });
 
     </script>
-
 
 @endsection

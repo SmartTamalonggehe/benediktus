@@ -52,6 +52,12 @@
                         <span>Staf</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('prasyarat.index') }}" class="waves-effect">
+                        <i class="bx bx-filter-alt"></i>
+                        <span>Matkul Prasyarat</span>
+                    </a>
+                </li>
                 <li id="liJadwal">
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-flip-horizontal"></i>

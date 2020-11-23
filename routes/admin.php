@@ -22,3 +22,4 @@ Route::resource('dosen', 'DosenController');
 Route::resource('jadwal', 'JadwalController');
 Route::resource('tools', 'ToolsController');
 Route::resource('ruang', 'RuangController');
+Route::resource('prasyarat', 'PrasyaratController');

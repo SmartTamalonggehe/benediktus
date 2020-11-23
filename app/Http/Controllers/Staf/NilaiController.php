@@ -16,18 +16,23 @@ class NilaiController extends Controller
      */
     public function index(Request $request)
     {
-        $kontrak= Kontrak::with(['krs'=>function ($krs){
-            $krs->with(['perwalian'=>function($perwalian){
+        $kontrak= Kontrak::with(['krs'=>function ($krs) use ($request){
+            $krs->where('semester_ak',$request->semester_ak)->where('tahun_ak',$request->tahun_ak)
+            ->with(['perwalian'=>function($perwalian){
                 $perwalian->with('mhs');
             }]);
-        }])->get();
+        }])->get()->whereNotNull('krs');
 
-        $nilai=Nilai::with(['kontrak'=>function($kontrak){
-            $kontrak->with(['krs'=>function($krs){
-                $krs->with(['perwalian'=>function($perwalian){
+        $nilai=Nilai::with(['kontrak'=>function($kontrak) use ($request){
+            $kontrak->with(['krs'=>function($krs) use ($request){
+                $krs->where('semester_ak',$request->semester_ak)->where('tahun_ak',$request->tahun_ak)
+                ->with(['perwalian'=>function($perwalian){
                     $perwalian->with('mhs');
                 }]);
             }]);
+        }])->get()->whereNotNull('kontrak.krs');
+
+        $tahun=Kontrak::with(['krs'=>function($krs){
         }])->get();
 
         $nilai = $nilai->keyBy('kontrak.krs.perwalian.mhs_id');
@@ -41,7 +46,8 @@ class NilaiController extends Controller
             return $view;
         }
         return view('staf.nilai.index', [
-            'kontrak'=>$kontrak
+            'kontrak'=>$kontrak,
+            'tahun'=>$tahun,
         ]);
     }
 
