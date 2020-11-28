@@ -2,7 +2,7 @@
     use Carbon\Carbon;
 @endphp
 @extends('mhs.layouts.default')
-
+K
 @section('judul', 'Perwalian')
 
 @section('css')
@@ -208,6 +208,10 @@
             loadKomen();
             }, 1000);
     </script>
+
+
+
+
 {{-- Tambah Komentar --}}
     <script>
         $(document).ready(function () {

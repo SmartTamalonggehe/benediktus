@@ -38,4 +38,8 @@ class Jadwal extends Model
     {
         return $this->hasOne(aturan::class);
     }
+
+    public function kontrak(){
+        return $this->hasMany(Kontrak::class);
+    }
 }

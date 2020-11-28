@@ -21,4 +21,6 @@ class Kontrak extends Model
     public function nilai(){
         return $this->hasOne(Nilai::class);
     }
+
+    
 }

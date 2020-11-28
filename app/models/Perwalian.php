@@ -27,4 +27,5 @@ class Perwalian extends Model
     {
         return $this->hasMany(KomenPerwalian::class);
     }
+
 }

@@ -88,6 +88,9 @@
 
         </div>
     </div>
+    <div id="alurMatkul">
+
+    </div>
 @else
     <div class="card">
         <div class="card-body">
@@ -184,7 +187,11 @@
                 'krs_id': krs_id,
             },
             success: function(response) {
-                    console.log(response);
+                    // console.log(response);
+                    if (response) {
+                        $('#alurMatkul').html(response);
+                        return 0
+                    }
                     location.reload();
                 //   pesan
                 }
@@ -192,4 +199,6 @@
         })
 
     });
+
+
 </script>
