@@ -87,7 +87,7 @@ class KhsController extends Controller
             'success' => 'Berhasil',
             );
 
-        return response()->json($output);
+        return redirect()->back();
     }
 
     /**
