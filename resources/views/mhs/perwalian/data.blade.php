@@ -10,9 +10,9 @@
                 <div class="col-6">
                     <h4 class="card-title">Jadwal Perkuliahan</h4>
                 </div>
-                <div class="col-6">
+                {{-- <div class="col-6">
                     <button class="btn btn-primary float-right">Download Jadwal</button>
-                </div>
+                </div> --}}
             </div>
             <p class="card-title-desc">Silahkan memilih matakuliah yang akan dikontrak. Total sks matakuliah yang dikontrak tidak boleh lebih dari beban SKS {{ $beban }}.
             @if ($krs->ket=="Revisi")
