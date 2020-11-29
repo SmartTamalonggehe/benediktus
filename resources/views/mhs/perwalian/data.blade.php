@@ -115,8 +115,8 @@
                 <tbody>
                     @foreach ($kontrak as $itemKontrak)
                         @foreach ($jadwal as $item)
-                        @if ($item->id===$itemKontrak->jadwal_id)
-                        <tr class="clickable-row" data-id='{{ $item->id }}'>
+                        @if ($item->id==$itemKontrak->jadwal_id)
+                        <tr>
                             <td>{{ $item->matkul->nm_matkul }}</td>
                             <td>{{ $item->matkul->kd_matkul }}</td>
                             <td>{{ $item->hari }}</td>
