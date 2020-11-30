@@ -16,38 +16,38 @@ class NilaiController extends Controller
      */
     public function index(Request $request)
     {
-        $kontrak= Kontrak::with(['krs'=>function ($krs) use ($request){
-            $krs->where('semester_ak',$request->semester_ak)->where('tahun_ak',$request->tahun_ak)
-            ->with(['perwalian'=>function($perwalian){
-                $perwalian->with('mhs');
-            }]);
-        }])->get()->whereNotNull('krs');
-
-        $nilai=Nilai::with(['kontrak'=>function($kontrak) use ($request){
-            $kontrak->with(['krs'=>function($krs) use ($request){
-                $krs->where('semester_ak',$request->semester_ak)->where('tahun_ak',$request->tahun_ak)
-                ->with(['perwalian'=>function($perwalian){
+        $kontrak = Kontrak::with(['krs' => function ($krs) use ($request) {
+            $krs->where('semester_ak', $request->semester_ak)->where('tahun_ak', $request->tahun_ak)
+                ->with(['perwalian' => function ($perwalian) {
                     $perwalian->with('mhs');
                 }]);
+        }])->get()->whereNotNull('krs');
+
+        $nilai = Nilai::with(['kontrak' => function ($kontrak) use ($request) {
+            $kontrak->with(['krs' => function ($krs) use ($request) {
+                $krs->where('semester_ak', $request->semester_ak)->where('tahun_ak', $request->tahun_ak)
+                    ->with(['perwalian' => function ($perwalian) {
+                        $perwalian->with('mhs');
+                    }]);
             }]);
         }])->get()->whereNotNull('kontrak.krs');
 
-        $tahun=Kontrak::with(['krs'=>function($krs){
+        $tahun = Kontrak::with(['krs' => function ($krs) {
         }])->get();
 
         $nilai = $nilai->keyBy('kontrak.krs.perwalian.mhs_id');
-        $kontrak =$kontrak->keyBy('krs.perwalian.mhs_id');
+        $kontrak = $kontrak->keyBy('krs.perwalian.mhs_id');
 
         if ($request->ajax()) {
             $view = view('staf.nilai.data', [
-                'kontrak'=>$kontrak,
-                'nilai'=>$nilai
+                'kontrak' => $kontrak,
+                'nilai' => $nilai
             ]);
             return $view;
         }
         return view('staf.nilai.index', [
-            'kontrak'=>$kontrak,
-            'tahun'=>$tahun,
+            'kontrak' => $kontrak,
+            'tahun' => $tahun,
         ]);
     }
 
@@ -58,8 +58,6 @@ class NilaiController extends Controller
      */
     public function create()
     {
-
-
     }
 
     /**
@@ -72,13 +70,27 @@ class NilaiController extends Controller
     {
         $data = $request->all();
 
+
         foreach ($data['kontrak_id'] as $index => $kontrak_id) {
+
+            if ($data['nilai'][$index] == 'A') {
+                $angka = 4;
+            } elseif ($data['nilai'][$index] == 'B') {
+                $angka = 3;
+            } elseif ($data['nilai'][$index] == 'C') {
+                $angka = 2;
+            } elseif ($data['nilai'][$index] == 'D') {
+                $angka = 1;
+            } else {
+                $angka = 0;
+            }
+
             Nilai::create([
                 'kontrak_id' => $kontrak_id,
                 'nilai' => $data['nilai'][$index],
+                'angka' => $angka,
             ]);
         }
-
     }
 
     /**
@@ -89,22 +101,22 @@ class NilaiController extends Controller
      */
     public function show($id)
     {
-        $nilai=Nilai::with(['kontrak'=>function($kontrak) use ($id){
-            $kontrak->where('krs_id',$id);
-            $kontrak->with(['jadwal'=>function($jadwal){
+        $nilai = Nilai::with(['kontrak' => function ($kontrak) use ($id) {
+            $kontrak->where('krs_id', $id);
+            $kontrak->with(['jadwal' => function ($jadwal) {
                 $jadwal->with('matkul');
             }]);
         }])->get()->whereNotNull('kontrak');
 
 
-        $kontrak= Kontrak::where('krs_id',$id)
-            ->with(['jadwal'=>function($jadwal){
-            $jadwal->with('matkul');
-        }])->get()->sortBy('jadwal.matkul.nm_matkul');
+        $kontrak = Kontrak::where('krs_id', $id)
+            ->with(['jadwal' => function ($jadwal) {
+                $jadwal->with('matkul');
+            }])->get()->sortBy('jadwal.matkul.nm_matkul');
 
         return [
-            "nilai"=>$nilai,
-            "kontrak"=>$kontrak
+            "nilai" => $nilai,
+            "kontrak" => $kontrak
         ];
     }
 
@@ -130,12 +142,24 @@ class NilaiController extends Controller
     {
         $data = $request->all();
         foreach ($data['kontrak_id'] as $index => $kontrak_id) {
-            Nilai::where('id',$kontrak_id)
-            ->update([
-                'nilai' => $data['nilai'][$index],
-            ]);
-        }
+            if ($data['nilai'][$index] == 'A') {
+                $angka = 4;
+            } elseif ($data['nilai'][$index] == 'B') {
+                $angka = 3;
+            } elseif ($data['nilai'][$index] == 'C') {
+                $angka = 2;
+            } elseif ($data['nilai'][$index] == 'D') {
+                $angka = 1;
+            } else {
+                $angka = 0;
+            }
 
+            Nilai::where('id', $kontrak_id)
+                ->update([
+                    'nilai' => $data['nilai'][$index],
+                    'angka' => $angka,
+                ]);
+        }
     }
 
     /**

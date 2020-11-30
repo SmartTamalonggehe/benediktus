@@ -163,6 +163,7 @@
             type: method,
             data: dataKu,
             success: function(response) {
+                console.log(response);
                     if (save_method=="add") {
                         toastr.info('Data Disimpan ', 'Berhasil', { "progressBar": true });
                     } else {

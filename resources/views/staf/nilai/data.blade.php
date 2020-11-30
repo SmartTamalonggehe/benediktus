@@ -15,10 +15,10 @@
         <tr>
             <td></td>
             <td>{{ $item->krs->perwalian->mhs->NPM }}</td>
-            <td>{{ $item->krs->perwalian->mhs->nm_mhs }} {{ $item->krs->perwalian->mhs->nm_mhs }}</td>
+            <td>{{ $item->krs->perwalian->mhs->nm_mhs }}</td>
             <td>
                 @forelse ($nilai as $itemNilai)
-                    @if ($item->krs->perwalian->mhs->NPM===$itemNilai->kontrak->krs->perwalian->mhs->NPM)
+                    @if ($item->krs->perwalian->mhs->NPM==$itemNilai->kontrak->krs->perwalian->mhs->NPM)
                     {{-- Tombol Ubah nilai --}}
                     <button type="submit" data-id="{{ $item->krs->id }}" class="btn btn-info float-left ubahNilai mr-2">Ubah Nilai</button>
                     @else

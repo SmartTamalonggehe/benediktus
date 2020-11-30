@@ -8,3 +8,5 @@ Route::get('/', function () {
 
 Route::resource('perwalianDosen', 'PerwalianController');
 Route::resource('komenPerwalianDosen', 'KomenPerwalianController');
+
+Route::get('/grafikMhs', 'DashboardController@grafikMhs');
