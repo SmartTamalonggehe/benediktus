@@ -39,7 +39,7 @@
                     <h4 class="card-title">Data @yield('judul')</h4>
                     <p class="card-title-desc">
                         Klik lihat untuk melihat detail matakuliah yang di kontrak serta pesan dari mahasiswa.
-                        <button type="submit" id="tambah" class="btn btn-primary float-right">Tambah Data</button>
+                        {{-- <button type="submit" id="tambah" class="btn btn-primary float-right">Tambah Data</button> --}}
                     </p>
 
                     <div id="tampil"></div>

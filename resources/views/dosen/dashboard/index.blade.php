@@ -48,7 +48,19 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div id="grafikMhs"></div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <div class="controls">
+                                <select name="mhs_id" id="mhs_id" class="select2 form-control" style="width: 100%" required
+                                    data-validation-required-message="Tidak Boleh Kosong">
+                                    <option value="">Pilih Mahasiswa</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="co-12">
+                        <div id="grafikMhs"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -71,20 +83,45 @@
     {{-- Grafik --}}
     <script>
         // Grafik Gereja
-        let nm_gereja = []
-        let total_wijk = []
+        let ipk = []
+        let thnSmeter = []
 
-        function loadDataGrafik() {
+        function loadDataMhs() {
             $.ajax({
-                    url: '/api/grafikGereja',
+                url: '/dosen/grafikMhs',
+                type: "GET",
+                datatype: "JSON",
+                success: function(data) {
+                    $.each(data.dataMhs, function(index, value) {
+                        $("#mhs_id").append('<option value="' + value.id + '">' + value.nm_mhs +
+                            '</option>');
+                    });
+                }
+            })
+        }
+
+        loadDataMhs()
+
+        $('#mhs_id').on('change', function() {
+            $('#grafikMhs').empty()
+            mhs_id = $(this).val()
+            loadDataGrafik(mhs_id)
+        })
+
+        function loadDataGrafik(mhs_id) {
+            $.ajax({
+                    url: '/dosen/grafikMhs',
                     type: "GET",
                     datatype: "JSON",
+                    data: {
+                        'mhs_id': mhs_id,
+                    },
                     success: function(data) {
-                        $.each(data, function(index, value) {
-                            nm_gereja.push(value.nm_gereja)
-                            total_wijk.push(value.total_wijk)
+                        $.each(data.dataGrafikMhs, function(index, value) {
+                            thnSmeter.push(value.tahun_ak + '-' + value.semester_ak)
+                            ipk.push(value.angka)
                         });
-                        grafikGereja()
+                        grafikMhs()
                     }
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError) {
@@ -92,14 +129,12 @@
                 });
         }
 
-        // loadDataGrafik()
 
-
-        function grafikGereja() {
+        function grafikMhs() {
             var options = {
                 series: [{
-                    name: 'Total Jemaat',
-                    data: [12,6]
+                    name: 'IPK',
+                    data: ipk
                 }],
                 chart: {
                     height: 350,
@@ -123,7 +158,7 @@
                     show: false
                 },
                 xaxis: {
-                    categories: ['ahf','yu6'],
+                    categories: thnSmeter,
                     labels: {
                         style: {
                             fontSize: '12px'
@@ -139,8 +174,6 @@
 
             chart.render();
         }
-
-        grafikGereja()
 
     </script>
 
