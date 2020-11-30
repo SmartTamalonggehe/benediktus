@@ -187,7 +187,7 @@
                 'krs_id': krs_id,
             },
             success: function(response) {
-                    // console.log(response);
+                    console.log(response);
                     if (response) {
                         $('#alurMatkul').html(response);
                         return 0

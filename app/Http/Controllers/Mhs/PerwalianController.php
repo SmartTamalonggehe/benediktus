@@ -190,8 +190,8 @@ class PerwalianController extends Controller
 
         $mhs_id=auth()->user()->id;
 
-        $syarat_id=prasyarat::whereIn('matkul_id',Jadwal::whereIn('id',($request->jadwal_id))->get('matkul_id'))->select('syarat_id','matkul_id')
-            ->get();
+        $syarat_id=prasyarat::whereIn('matkul_id',Jadwal::whereIn('id',($request->jadwal_id))->get('matkul_id'))
+            ->get('syarat_id');
         // blm ada data kontrak
         $belumKontrak= Kontrak::with(['krs'=>function($krs) use ($mhs_id){
             $krs->with(['perwalian'=>function($perwalian) use ($mhs_id){
@@ -199,12 +199,13 @@ class PerwalianController extends Controller
             }]);
         }])->get()->whereNotNull('krs.perwalian')->count();
 
-        // return $belumKontrak;
+        $belumKontrakSyarat_id = prasyarat::whereIn('matkul_id', Jadwal::whereIn('id', ($request->jadwal_id))->get('matkul_id'))->select('syarat_id', 'matkul_id')
+        ->get();
 
         if ($belumKontrak==0) {
             if ($syarat_id->count()) {
                 return view('mhs.perwalian.alur_matkul',[
-                    'syarat'=>$syarat_id,
+                    'syarat'=> $belumKontrakSyarat_id,
                 ]);
             }
 
