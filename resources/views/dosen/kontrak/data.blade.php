@@ -1,4 +1,4 @@
-{{-- <table class="tableKu table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+<table class="tableKu table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
     <thead>
         <tr>
             <th>Mata Kuliah</th>
@@ -12,7 +12,7 @@
     <tbody>
         @foreach ($kontrak as $itemKontrak)
             @foreach ($jadwal as $item)
-            @if ($item->id===$itemKontrak->jadwal_id)
+            @if ($item->id==$itemKontrak->jadwal_id)
             <tr class="clickable-row" data-id='{{ $item->id }}'>
                 <td>{{ $item->matkul->nm_matkul }}</td>
                 <td>{{ $item->matkul->kd_matkul }}</td>
@@ -26,7 +26,7 @@
         @endforeach
 
     </tbody>
-</table> --}}
+</table>
 
 
 
