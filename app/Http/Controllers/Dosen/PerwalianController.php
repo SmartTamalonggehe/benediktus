@@ -19,20 +19,20 @@ class PerwalianController extends Controller
      */
     public function index(Request $request)
     {
-        $perwalian=Perwalian::with('krs')
-            ->where('dosen_id',auth()->user()->dosen->id)
+        $perwalian = Perwalian::with('krs')
+            ->where('dosen_id', auth()->user()->dosen->id)
             ->get();
 
         // return $perwalian;
 
         if ($request->ajax()) {
             $view = view('dosen.perwalian.data', [
-                'perwalian'=>$perwalian,
+                'perwalian' => $perwalian,
             ]);
             return $view;
         }
         return view('dosen.perwalian.index', [
-            'perwalian'=>$perwalian,
+            'perwalian' => $perwalian,
         ]);
     }
 
@@ -43,7 +43,6 @@ class PerwalianController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -65,25 +64,26 @@ class PerwalianController extends Controller
      */
     public function show($id)
     {
-        $krs=Krs::find($id);
+        $krs = Krs::find($id);
 
 
         // Ganti Komen Menjadi Dibaca
-        KomenPerwalian::where('perwalian_id',$krs->perwalian_id)
-            ->where('id_pengkomen','!=',auth()->user()->id)
+        KomenPerwalian::where('perwalian_id', $krs->perwalian_id)
+            ->where('id_pengkomen', '!=', auth()->user()->id)
             ->update([
-                'status'=>'Dibaca',
+                'status' => 'Dibaca',
             ]);
 
-        $kontrak=Kontrak::where('krs_id',$id)->get();
+        $kontrak = Kontrak::where('krs_id', $id)->get('jadwal_id');
 
-        $jadwal= Jadwal::where('semester_ak','GANJIL')
-            ->where('tahun_ak',2020)
+        $jadwal = Jadwal::whereIn('id', $kontrak)
+            ->where('semester_ak', $krs->semester_ak)
+            ->where('tahun_ak', $krs->tahun_ak)
             ->orderByRaw('FIELD(hari, "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu")')
             ->orderBy('jam_mulai')
             ->get();
-
-        return view('dosen.kontrak.index', compact('kontrak','jadwal','krs'));
+        return $jadwal;
+        return view('dosen.kontrak.index', compact('kontrak', 'jadwal', 'krs'));
     }
 
     /**
@@ -108,7 +108,7 @@ class PerwalianController extends Controller
     {
         Krs::find($id)
             ->update([
-                'ket'=>$request->ket,
+                'ket' => $request->ket,
             ]);
         return redirect()->back();
     }
