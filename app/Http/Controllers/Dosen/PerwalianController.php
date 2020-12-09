@@ -82,7 +82,6 @@ class PerwalianController extends Controller
             ->orderByRaw('FIELD(hari, "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu")')
             ->orderBy('jam_mulai')
             ->get();
-        return $jadwal;
         return view('dosen.kontrak.index', compact('kontrak', 'jadwal', 'krs'));
     }
 

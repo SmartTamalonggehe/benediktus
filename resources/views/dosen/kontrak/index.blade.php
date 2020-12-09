@@ -178,8 +178,7 @@ use Carbon\Carbon;
         function loadKomen() {
             let krs_id = $('#krs_id').val();
             $.ajax({
-                    url: '{{ route('
-                    komenPerwalianDosen.index ') }}',
+                    url: "{{ route('komenPerwalianDosen.index') }}",
                     type: "get",
                     datatype: "html",
                     data: {
