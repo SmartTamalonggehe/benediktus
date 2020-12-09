@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('admin.dashboard.index');
-})->name('admin');
+Route::get('/', 'DashboardController@index')->name('admin');
 
 Route::resource('matkul', 'MatkulController');
 Route::resource('dosen', 'DosenController');

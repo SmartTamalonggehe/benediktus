@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('staf.dashboard.index');
-})->name('staf');
+Route::get('/', 'DashboardController@index')->name('staf');
 
 Route::resource('mhs', 'MhsController');
 Route::resource('khs', 'KhsController');

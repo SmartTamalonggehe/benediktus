@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Dosen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Krs;
+use App\Models\Prodi;
 
 class DashboardController extends Controller
 {
@@ -30,11 +32,23 @@ class DashboardController extends Controller
             ->groupBy('id', 'nm_mhs',)
             ->get();
 
-
-
         return response([
             'dataGrafikMhs' => $dataGrafikMhs,
             'dataMhs' => $dataMhs,
+        ]);
+    }
+
+    public function index()
+    {
+        $prodi = Prodi::all();
+        $krs = Krs::where('ket', 'Terima')
+            ->where('semester_ak', 'GANJIL')
+            ->where('tahun_ak', 2020)
+            ->get();
+
+        return view('dosen.dashboard.index', [
+            'krs' => $krs,
+            'prodi' => $prodi,
         ]);
     }
 }
